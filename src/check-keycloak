@@ -1,4 +1,4 @@
-#!/usr/bin/env python
-from argo_probe_keycloak import keycloak_auth_check
+#!/usr/bin/python3
+from argo_probe_keycloak import keycloak
 
-keycloak_auth_check.main()
+keycloak.main()
