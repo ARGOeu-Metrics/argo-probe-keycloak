@@ -1,6 +1,5 @@
-from distutils.core import setup
 import glob
-import sys
+from distutils.core import setup
 
 NAME = 'argo-probe-keycloak'
 NAGIOSPLUGINS = '/usr/libexec/argo/probes/keycloak'
@@ -11,20 +10,20 @@ def get_ver():
         for line in open(NAME+'.spec'):
             if "Version:" in line:
                 return line.split()[1]
+
     except IOError:
-        print "Make sure that %s is in directory"  % (NAME+'.spec')
-        sys.exit(1)
+        SystemExit(1)
 
 
-setup(name=NAME,
-      version=get_ver(),
-      license='ASL 2.0',
-      author='SRCE, GRNET',
-      author_email='dvrcic@srce.hr, kzailac@srce.hr',
-      description='Package includes probe for keycloak login',
-      platforms='noarch',
-      url='http://argoeu.github.io/',
-      data_files=[(NAGIOSPLUGINS, glob.glob('src/*'))],
-      packages=['argo_probe_keycloak'],
-      package_dir={'argo_probe_keycloak': 'modules/'},
-      )
+setup(
+    name=NAME,
+    version=get_ver(),
+    license='ASL 2.0',
+    author='SRCE',
+    author_email='kzailac@srce.hr',
+    description='Package includes probe for keycloak login',
+    url='https://github.com/ARGOeu-Metrics/argo-probe-keycloak',
+    package_dir={'argo_probe_keycloak': 'modules'},
+    data_files=[('/usr/libexec/argo/probes/keycloak', glob.glob('src/*'))],
+    packages=['argo_probe_keycloak']
+)
