@@ -2,7 +2,6 @@ import glob
 from distutils.core import setup
 
 NAME = 'argo-probe-keycloak'
-NAGIOSPLUGINS = '/usr/libexec/argo/probes/keycloak'
 
 
 def get_ver():
