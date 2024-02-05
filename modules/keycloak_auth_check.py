@@ -2,8 +2,7 @@ import argparse
 import sys
 
 import requests
-
-from NagiosResponse import NagiosResponse
+from argo_probe_keycloak.status import Status
 
 
 def main():
@@ -28,7 +27,7 @@ def main():
     )
     args = parser.parse_args()
 
-    nagios = NagiosResponse("Access token fetched successfully.")
+    status = Status()
 
     try:
         response = requests.post(
@@ -46,8 +45,7 @@ def main():
         access_token = response.json()["access_token"]
         assert access_token
 
-        print nagios.getMsg()
-        sys.exit(nagios.getCode())
+        status.set_ok("Access token fetched successfully.")
 
     except (
         requests.exceptions.HTTPError,
@@ -57,10 +55,10 @@ def main():
         KeyError,
         AssertionError
     ) as e:
-        nagios.writeCriticalMessage(str(e))
-        nagios.setCode(nagios.CRITICAL)
-        print nagios.getMsg()
-        sys.exit(nagios.getCode())
+        status.set_critical(str(e))
+
+    print(status.get_message())
+    sys.exit(status.get_code())
 
 
 if __name__ == '__main__':
