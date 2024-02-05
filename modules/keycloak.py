@@ -2,19 +2,19 @@ import requests
 from argo_probe_keycloak.status import Status
 
 
-def fetch_keycloak_token(args):
+def fetch_keycloak_token(endpoint, client_id, client_secret, timeout):
     status = Status()
 
     try:
         response = requests.post(
-            args.endpoint,
-            auth=(args.client_id, args.client_secret),
+            endpoint,
+            auth=(client_id, client_secret),
             data={
-                "client_id": args.client_id,
-                "client_secret": args.client_secret,
+                "client_id": client_id,
+                "client_secret": client_secret,
                 "grant_type": "client_credentials"
             },
-            timeout=args.timeout
+            timeout=timeout
         )
         response.raise_for_status()
 
@@ -26,12 +26,20 @@ def fetch_keycloak_token(args):
     except (
         requests.exceptions.HTTPError,
         requests.exceptions.ConnectionError,
-        requests.exceptions.RequestException,
-        ValueError,
-        KeyError,
-        AssertionError
+        requests.exceptions.RequestException
     ) as e:
         status.set_critical(str(e))
+
+    except AssertionError:
+        status.set_critical(
+            "Access token not fetched - not defined in response json"
+        )
+
+    except KeyError:
+        status.set_critical(
+            "Access token not fetched - key 'access_token' not defined in "
+            "response json"
+        )
 
     return {
         "message": status.get_message(),
