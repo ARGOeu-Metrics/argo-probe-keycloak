@@ -24,8 +24,10 @@ pipeline {
                         echo 'Building Rpm...'
                         sh '''
                             cd ${WORKSPACE}/$PROJECT_DIR
-                            coverage3 run -m unittest discover -v
-                            coverage3 xml --omit='*usr*'
+                            rm -f tests/argo_probe_keycloak
+                            ln -s $PWD/modules/ tests/argo_probe_keycloak
+                            coverage run -m xmlrunner discover --output-file junit.xml -v tests/
+                            coverage xml
                         '''
                         cobertura coberturaReportFile: '**/coverage.xml'
                     }
