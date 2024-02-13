@@ -29,5 +29,5 @@ Example execution of the probe:
 
 ```
 # /usr/libexec/argo/probes/keycloak/check-keycloak -t 60 --client_id <client_id> --client_secret <client_secret> --token_endpoint  https://sso.neanias.eu/auth/realms/neanias-development/protocol/openid-connect/token
-OK - Access token fetched successfully.
+OK - Access token fetched successfully|time=0.392062s;size=2095B
 ```

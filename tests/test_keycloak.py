@@ -1,3 +1,5 @@
+import datetime
+import json
 import unittest
 from unittest import mock
 
@@ -18,6 +20,8 @@ class MockResponse:
     def __init__(self, data, status_code):
         self.data = data
         self.status_code = status_code
+        self.elapsed = datetime.timedelta(seconds=0.1342245)
+        self.content = json.dumps(self.data)
 
         if str(self.status_code).startswith("2"):
             self.reason = "OK"
@@ -64,7 +68,9 @@ class KeycloakTests(unittest.TestCase):
             timeout=60
         )
         self.assertEqual(
-            status["message"], "Access token fetched successfully."
+            status["message"],
+            f"Access token fetched successfully"
+            f"|time=0.134224s;size={len(json.dumps(mock_data))}B"
         )
         self.assertEqual(status["code"], 0)
 
@@ -87,7 +93,9 @@ class KeycloakTests(unittest.TestCase):
             },
             timeout=60
         )
-        self.assertEqual(status["message"], "500 SERVER ERROR")
+        self.assertEqual(
+            status["message"], f"500 SERVER ERROR|time=0.134224s;size=4B"
+        )
         self.assertEqual(status["code"], 2)
 
     @mock.patch("argo_probe_keycloak.keycloak.requests.post")
@@ -115,7 +123,8 @@ class KeycloakTests(unittest.TestCase):
         )
         self.assertEqual(
             status["message"],
-            "Access token not fetched - not defined in response json"
+            f"Access token not fetched - not defined in response json"
+            f"|time=0.134224s;size={len(json.dumps(mock_data_copy))}B"
         )
         self.assertEqual(status["code"], 2)
 
@@ -144,7 +153,8 @@ class KeycloakTests(unittest.TestCase):
         )
         self.assertEqual(
             status["message"],
-            "Access token not fetched - key 'access_token' not defined in "
-            "response json"
+            f"Access token not fetched - key 'access_token' not defined in "
+            f"response json"
+            f"|time=0.134224s;size={len(json.dumps(mock_data_copy))}B"
         )
         self.assertEqual(status["code"], 2)
