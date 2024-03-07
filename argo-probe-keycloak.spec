@@ -2,7 +2,7 @@
 
 Name: argo-probe-keycloak
 Summary: Probe checking that keycloack login works.
-Version: 0.1.0
+Version: 0.2.0
 Release: 1%{?dist}
 Source0: %{name}-%{version}.tar.gz
 License: ASL 2.0
@@ -42,5 +42,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Mar 7 2024 Katarina Zailac <kzailac@srce.hr> - 0.2.0-1%{?dist}
+- ARGO-4470 Add performance data to argo-probe-keycloak
+- ARGO-4473 Rewrite argo-probe-keycloak for Py3
 * Fri Jun 10 2022 Katarina Zailac <kzailac@gmail.com> - 0.1.0-1%{?dist}
 - AO-650 Harmonize argo-mon probes
