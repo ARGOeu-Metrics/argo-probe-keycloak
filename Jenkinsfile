@@ -29,7 +29,13 @@ pipeline {
                             coverage run -m xmlrunner discover --output-file junit.xml -v tests/
                             coverage xml
                         '''
-                        cobertura coberturaReportFile: '**/coverage.xml'
+                        //cobertura coberturaReportFile: '**/coverage.xml'
+                        recordCoverage(
+                                    tools: [
+                                        [parser: 'COBERTURA', pattern: '**/coverage.xml'],
+                                        [parser: 'JUNIT', pattern: '**/junit.xml']
+                                    ]
+                                )
                     }
                 }
             }
