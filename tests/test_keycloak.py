@@ -69,7 +69,7 @@ class KeycloakTests(unittest.TestCase):
         )
         self.assertEqual(
             status["message"],
-            f"Access token fetched successfully"
+            f"OK - Access token fetched successfully"
             f"|time=0.134224s;size={len(json.dumps(mock_data))}B"
         )
         self.assertEqual(status["code"], 0)
@@ -94,7 +94,7 @@ class KeycloakTests(unittest.TestCase):
             timeout=60
         )
         self.assertEqual(
-            status["message"], f"500 SERVER ERROR|time=0.134224s;size=4B"
+            status["message"], f"CRITICAL - 500 SERVER ERROR|time=0.134224s;size=4B"
         )
         self.assertEqual(status["code"], 2)
 
@@ -123,7 +123,7 @@ class KeycloakTests(unittest.TestCase):
         )
         self.assertEqual(
             status["message"],
-            f"Access token not fetched - not defined in response json"
+            f"CRITICAL - Access token not fetched - not defined in response json"
             f"|time=0.134224s;size={len(json.dumps(mock_data_copy))}B"
         )
         self.assertEqual(status["code"], 2)
@@ -153,7 +153,7 @@ class KeycloakTests(unittest.TestCase):
         )
         self.assertEqual(
             status["message"],
-            f"Access token not fetched - key 'access_token' not defined in "
+            f"CRITICAL - Access token not fetched - key 'access_token' not defined in "
             f"response json"
             f"|time=0.134224s;size={len(json.dumps(mock_data_copy))}B"
         )

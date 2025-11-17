@@ -25,23 +25,23 @@ def fetch_keycloak_token(endpoint, client_id, client_secret, timeout):
         access_token = response.json()["access_token"]
         assert access_token
 
-        status.set_ok(f"Access token fetched successfully{perfdata}")
+        status.set_ok(f"OK - Access token fetched successfully{perfdata}")
 
     except (
         requests.exceptions.HTTPError,
         requests.exceptions.ConnectionError,
         requests.exceptions.RequestException
     ) as e:
-        status.set_critical(f"{str(e)}{perfdata}")
+        status.set_critical(f"CRITICAL - {str(e)}{perfdata}")
 
     except AssertionError:
         status.set_critical(
-            f"Access token not fetched - not defined in response json{perfdata}"
+            f"CRITICAL - Access token not fetched - not defined in response json{perfdata}"
         )
 
     except KeyError:
         status.set_critical(
-            f"Access token not fetched - key 'access_token' not defined in "
+            f"CRITICAL - Access token not fetched - key 'access_token' not defined in "
             f"response json{perfdata}"
         )
 
