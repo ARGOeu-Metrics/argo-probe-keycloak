@@ -2,7 +2,7 @@
 
 Name: argo-probe-keycloak
 Summary: Probe checking that keycloack login works.
-Version: 0.2.0
+Version: 0.2.1
 Release: 1%{?dist}
 Source0: %{name}-%{version}.tar.gz
 License: ASL 2.0
